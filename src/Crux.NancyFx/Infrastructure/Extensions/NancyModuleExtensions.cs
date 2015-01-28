@@ -11,8 +11,12 @@ namespace Crux.NancyFx.Infrastructure.Extensions
     {
         public static IEnumerable<object> EnumToIdValuePair<T>(this NancyModule module) where T : struct
         {
-            return ((T[]) Enum.GetValues(typeof (T)))
-                .Select((x, i) => new {id = i, value = x.ToString()});
+            return ((T[])Enum.GetValues(typeof(T)))
+            .Select((x, i) => new
+            {
+                id = ((int)Enum.Parse(typeof(T), Enum.GetValues(typeof(T)).GetValue(i).ToString())),
+                value = x.ToString()
+            });
         }
 
         public static bool TryGetQueryParam<T>(this NancyModule module, string parameterName, out T value)
